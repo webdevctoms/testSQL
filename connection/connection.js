@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const {user,pass} = require('../config');
-const {createTableQuery,createUser} = require('./dbUtil');
+const {createTableQuery,createUser,createColumnQuery} = require('./dbUtil');
 
 const pool = mysql.createPool({
 	host: "localhost",
@@ -85,6 +85,23 @@ pool.populateTable = (tableName,amount) => {
       }
       else{
         resolve(result.affectedRows);
+      }
+    });
+  });
+
+  return promise;
+};
+
+pool.getAll = (tableName,columns) => {
+  let promise = new Promise((resolve,reject) => {
+    let queryString = columns ? createColumnQuery(columns) : '*'
+    let q = 'SELECT ' + queryString + ' FROM ' + tableName;
+    pool.query(q,function(err,result){
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result);
       }
     });
   });

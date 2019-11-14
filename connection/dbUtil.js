@@ -13,6 +13,16 @@ function createTableQuery(queryData){
 	return queryString;
 }
 
+function createColumnQuery(queryData){
+	let queryString = "";
+
+	for(let i = 0;i < queryData.length;i++){
+		queryString += queryData[i] + ',';
+	}
+
+	return queryString.slice(0,-1);
+}
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -40,4 +50,4 @@ function createUser(){
 	return user;
 }
 
-module.exports = {createTableQuery,createUser};
+module.exports = {createTableQuery,createUser,createColumnQuery};
