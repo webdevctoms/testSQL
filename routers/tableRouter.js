@@ -23,7 +23,27 @@ router.post('/',(req,res)=>{
 			message:'error creating table'
 		})
 	});
-	
+});
+
+router.post('/add-users',(req,res)=>{
+	let {amount,tableName} = req.body;
+	console.log(amount,tableName);
+	return pool.populateTable(tableName,amount)
+
+	.then(message => {
+		return res.send({
+			status:200,
+			message
+		})
+	})
+
+	.catch(err => {
+		console.log(err);
+		return res.send({
+			status:500,
+			message:'error creating users'
+		})
+	});
 });
 
 module.exports = {router};

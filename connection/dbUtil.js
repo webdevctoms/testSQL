@@ -1,3 +1,5 @@
+const Faker = require('faker');
+
 function createTableQuery(queryData){
 	let queryString = "";
 
@@ -11,4 +13,31 @@ function createTableQuery(queryData){
 	return queryString;
 }
 
-module.exports = {createTableQuery};
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function createUser(){
+	let user = [];
+	//console.log(Faker);
+	//first name
+	user.push(Faker.name.firstName());
+	//last name
+	user.push(Faker.name.lastName());
+	//email
+	user.push(Faker.internet.email());
+	//password
+	user.push(Faker.address.zipCode());
+	//location
+	user.push(Faker.address.city());
+	//dept
+	user.push(Faker.random.word('noun'));
+	//is_admin
+	user.push(getRandomInt(2));
+	//registered date
+	user.push(Faker.date.past());
+	console.log(user);
+	return user;
+}
+
+module.exports = {createTableQuery,createUser};

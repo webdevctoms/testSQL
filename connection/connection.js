@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const {user,pass} = require('../config');
-const {createTableQuery} = require('./dbUtil');
+const {createTableQuery,createUser} = require('./dbUtil');
 
 const pool = mysql.createPool({
 	host: "localhost",
@@ -66,6 +66,27 @@ pool.createTable = (tableName,queryData) => {
       
     });
     
+  });
+
+  return promise;
+};
+
+pool.populateTable = (tableName,amount) => {
+  let promise = new Promise((resolve,reject) => {
+    let values = [];
+    for(let i = 0;i < amount;i++){
+      let user = createUser();
+      values.push(user);
+    }
+    let q = 'INSERT INTO ' + tableName + ' (first_name, last_name, email, password, location, dept, is_admin, registered_date) VALUES ?';
+    pool.query(q,[values],function(err,result){
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result.affectedRows);
+      }
+    });
   });
 
   return promise;
