@@ -51,8 +51,24 @@ pool.createDb = (dbName) => {
 };
 
 pool.createTable = (tableName,queryData) => {
-  let queryString = createTableQuery(queryData);
-  let query = 'CREATE TABLE ' + tableName + ' (id INT AUTO_INCREMENT,';
+  let promise = new Promise((resolve,reject) => {
+
+    let queryString = createTableQuery(queryData);
+    let q = 'CREATE TABLE ' + tableName + ' (id INT AUTO_INCREMENT,' + queryString + ' PRIMARY KEY(id))';
+    console.log(q);
+    pool.query(q,function(err,result){
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve('table created');
+      }
+      
+    });
+    
+  });
+
+  return promise;
 };
 
 module.exports = {pool};

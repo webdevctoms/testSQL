@@ -4,9 +4,11 @@ const {PORT} = require('./config');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const {pool} = require('./connection/connection');
+const {tableRouter} = require('./routers/routerConfig');
 const app = express();
 
 app.use(jsonParser);
+app.use('/table',tableRouter);
 
 let server;
 
